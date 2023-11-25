@@ -1,16 +1,11 @@
 import { z } from 'zod';
 
-const validateName = (value: string) =>
-  value === value.charAt(0).toUpperCase() + value.slice(1);
-
 const fullNameSchema = z.object({
   firstName: z.string({
     required_error: 'First name is required',
-    validate: async (firstName: string) => validateName(firstName),
   }),
   lastName: z.string({
     required_error: 'Last name is required',
-    validate: async (lastName: string) => validateName(lastName),
   }),
 });
 
