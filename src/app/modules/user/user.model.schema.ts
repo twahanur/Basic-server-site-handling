@@ -163,9 +163,8 @@ userSchema.statics.updateSingleUserData = async function (id, updatedUserData) {
 };
 
 userSchema.statics.getSingleUserOrders = async function (id: number) {
-  const userid: number = parseInt(id);
   const data = await User.aggregate([
-    { $match: { userId: userid } },
+    { $match: { userId: id } },
     { $project: { orders: 1, _id: 0 } },
   ]);
   return data.length > 0 ? data[0] : null;
@@ -198,6 +197,7 @@ userSchema.statics.deleteSingleUserData = async function (id) {
 };
 
 userSchema.pre('save', async function (next) {
+  // eslint-disable-next-line @typescript-eslint/no-this-alias
   const user = this;
   user.password = await bcrypt.hash(
     user.password,

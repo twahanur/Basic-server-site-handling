@@ -32,12 +32,13 @@ const createUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         });
     }
     catch (error) {
+        const typedError = error;
         res.status(500).json({
             success: false,
-            message: error.message || 'User creation failed',
+            message: typedError.message || 'Failed to create user',
             error: {
                 code: 500,
-                description: 'User creation failed. server error.',
+                description: 'Failed to create user. Server error.',
             },
         });
     }
@@ -52,12 +53,13 @@ const getAllUsers = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
         });
     }
     catch (error) {
+        const typedError = error;
         res.status(500).json({
             success: false,
-            message: error.message || 'Failed to fetch users',
+            message: typedError.message || 'Failed to fetch users',
             error: {
                 code: 500,
-                description: 'Failed to fetch users. server error.',
+                description: 'Failed to fetch users. Server error.',
             },
         });
     }
@@ -65,7 +67,7 @@ const getAllUsers = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
 const getSingleUsers = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { userId } = req.params;
-        const data = yield user_service_1.UserService.getSingleUserFromDB(userId);
+        const data = yield user_service_1.UserService.getSingleUserFromDB(parseInt(userId));
         res.status(200).json({
             success: true,
             message: `User ${data.fullName.firstName} ${data.fullName.lastName} fetched successfully`,
@@ -73,12 +75,13 @@ const getSingleUsers = (req, res) => __awaiter(void 0, void 0, void 0, function*
         });
     }
     catch (error) {
+        const typedError = error;
         res.status(500).json({
             success: false,
-            message: error.message || 'Failed to fetch user',
+            message: typedError.message || 'Failed to fetch user',
             error: {
                 code: 500,
-                description: 'Failed to fetch user. server error.',
+                description: 'Failed to fetch user. Server error.',
             },
         });
     }
@@ -86,8 +89,9 @@ const getSingleUsers = (req, res) => __awaiter(void 0, void 0, void 0, function*
 const updateSingleUserData = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { userId } = req.params;
+        const id = parseInt(userId);
         const reqData = req.body;
-        const data = yield user_service_1.UserService.updateSingleUserFromDB(userId, reqData);
+        const data = yield user_service_1.UserService.updateSingleUserFromDB(id, reqData);
         res.status(200).json({
             success: true,
             message: `User id ${userId} updated successfully`,
@@ -95,12 +99,13 @@ const updateSingleUserData = (req, res) => __awaiter(void 0, void 0, void 0, fun
         });
     }
     catch (error) {
+        const typedError = error;
         res.status(500).json({
             success: false,
-            message: error.message || 'Failed to update user',
+            message: typedError.message || 'Failed to fetch user orders',
             error: {
                 code: 500,
-                description: 'Failed to update user. server error.',
+                description: 'Failed to fetch user orders. Server error.',
             },
         });
     }
@@ -108,7 +113,8 @@ const updateSingleUserData = (req, res) => __awaiter(void 0, void 0, void 0, fun
 const deleteSingleUserData = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { userId } = req.params;
-        const data = yield user_service_1.UserService.deleteSingleUserFromDB(userId);
+        const id = parseInt(userId);
+        yield user_service_1.UserService.deleteSingleUserFromDB(id);
         res.status(200).json({
             success: true,
             message: `User id ${userId} deleted successfully`,
@@ -116,12 +122,13 @@ const deleteSingleUserData = (req, res) => __awaiter(void 0, void 0, void 0, fun
         });
     }
     catch (error) {
+        const typedError = error;
         res.status(500).json({
             success: false,
-            message: error.message || 'Failed to delete user',
+            message: typedError.message || 'Failed to delete user',
             error: {
                 code: 500,
-                description: 'Failed to delete user. server error.',
+                description: 'Failed to delete. Server error.',
             },
         });
     }
@@ -130,7 +137,7 @@ const placeOrderToUser = (req, res) => __awaiter(void 0, void 0, void 0, functio
     try {
         const { userId } = req.params;
         const reqData = req.body;
-        const data = yield user_service_1.UserService.placeNewOrder(userId, reqData);
+        const data = yield user_service_1.UserService.placeNewOrder(parseInt(userId), reqData);
         res.status(200).json({
             success: true,
             message: `Dear ${data.username}, your order created successfully!`,
@@ -138,12 +145,13 @@ const placeOrderToUser = (req, res) => __awaiter(void 0, void 0, void 0, functio
         });
     }
     catch (error) {
+        const typedError = error;
         res.status(500).json({
             success: false,
-            message: error.message || 'Failed to place order',
+            message: typedError.message || 'Failed to place order',
             error: {
                 code: 500,
-                description: 'Failed to place order. server error.',
+                description: 'Failed to place order. Server error.',
             },
         });
     }
@@ -151,7 +159,7 @@ const placeOrderToUser = (req, res) => __awaiter(void 0, void 0, void 0, functio
 const getSingleUserOrders = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { userId } = req.params;
-        const data = yield user_service_1.UserService.getSingleUserOrdersFromDB(userId);
+        const data = yield user_service_1.UserService.getSingleUserOrdersFromDB(parseInt(userId));
         res.status(200).json({
             success: true,
             message: `Orders fetched successfully`,
@@ -159,12 +167,13 @@ const getSingleUserOrders = (req, res) => __awaiter(void 0, void 0, void 0, func
         });
     }
     catch (error) {
+        const typedError = error;
         res.status(500).json({
             success: false,
-            message: error.message || 'Failed to fetch orders',
+            message: typedError.message || 'Failed to get orders list of user',
             error: {
                 code: 500,
-                description: 'Failed to fetch orders. server error.',
+                description: 'Failed to get orders list of user. Server error.',
             },
         });
     }
@@ -172,7 +181,8 @@ const getSingleUserOrders = (req, res) => __awaiter(void 0, void 0, void 0, func
 const getUserTotalOrderAmount = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { userId } = req.params;
-        const data = yield user_service_1.UserService.getSingleUserTotalOrderAmountFromDB(userId);
+        const id = parseInt(userId);
+        const data = yield user_service_1.UserService.getSingleUserTotalOrderAmountFromDB(id);
         res.status(200).json({
             success: true,
             message: 'Total price calculated successfully!',
@@ -180,13 +190,13 @@ const getUserTotalOrderAmount = (req, res) => __awaiter(void 0, void 0, void 0, 
         });
     }
     catch (error) {
+        const typedError = error;
         res.status(500).json({
             success: false,
-            message: error.message ||
-                `Failed to calculate total price for user with id ${userId}`,
+            message: typedError.message || 'Failed to calculate total price for user',
             error: {
                 code: 500,
-                description: `Failed to calculate total price. server error.`,
+                description: 'Failed to calculate total price. Server error.',
             },
         });
     }

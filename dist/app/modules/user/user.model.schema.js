@@ -168,9 +168,8 @@ userSchema.statics.updateSingleUserData = function (id, updatedUserData) {
 };
 userSchema.statics.getSingleUserOrders = function (id) {
     return __awaiter(this, void 0, void 0, function* () {
-        const userid = parseInt(id);
         const data = yield exports.User.aggregate([
-            { $match: { userId: userid } },
+            { $match: { userId: id } },
             { $project: { orders: 1, _id: 0 } },
         ]);
         return data.length > 0 ? data[0] : null;
@@ -203,6 +202,7 @@ userSchema.statics.deleteSingleUserData = function (id) {
 };
 userSchema.pre('save', function (next) {
     return __awaiter(this, void 0, void 0, function* () {
+        // eslint-disable-next-line @typescript-eslint/no-this-alias
         const user = this;
         user.password = yield bcrypt_1.default.hash(user.password, Number(config_1.default.bcrypt_salt_rounds));
         next();

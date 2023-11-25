@@ -1,4 +1,4 @@
-import { TUser } from './user.interface';
+import { TUser, TProduct } from './user.interface';
 import { User } from './user.model.schema';
 
 const createUserToDB = async function (user: TUser) {
@@ -37,13 +37,12 @@ const getSingleUserFromDB = async function (id: number) {
   return data;
 };
 
-const updateSingleUserFromDB = async function (id: number, data: any) {
+const updateSingleUserFromDB = async function (id: number, data: unknown) {
   const confirmation = await User.verifyUserId(id);
   if (confirmation === null) {
     throw new Error('User not found to database');
   }
-  const data = await User.updateSingleUserData(id, data);
-  return data;
+  return await User.updateSingleUserData(id, data);
 };
 
 const deleteSingleUserFromDB = async function (id: number) {
@@ -58,19 +57,19 @@ const deleteSingleUserFromDB = async function (id: number) {
   }
 };
 
-const placeNewOrder = async function (id: number, productData: any) {
+const placeNewOrder = async function (id: number, productData: TProduct) {
   const confirmation = await User.verifyUserId(id);
   if (confirmation === null) {
     throw new Error('User not found in the database');
   }
-  const userData = await User.findOne({ userId: id });
+  const userData = (await User.findOne({ userId: id })) as TUser;
   if (!userData.orders) {
     userData.orders = [];
   }
   userData.orders.push({
-    productName: productData?.productName,
-    price: productData?.price,
-    quantity: productData?.quantity,
+    productName: productData.productName,
+    price: productData.price,
+    quantity: productData.quantity,
   });
   const updatedUserData = await User.updateSingleUserData(id, userData);
   return updatedUserData;

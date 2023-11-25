@@ -56,8 +56,7 @@ const updateSingleUserFromDB = function (id, data) {
         if (confirmation === null) {
             throw new Error('User not found to database');
         }
-        const data = yield user_model_schema_1.User.updateSingleUserData(id, data);
-        return data;
+        return yield user_model_schema_1.User.updateSingleUserData(id, data);
     });
 };
 const deleteSingleUserFromDB = function (id) {
@@ -80,14 +79,14 @@ const placeNewOrder = function (id, productData) {
         if (confirmation === null) {
             throw new Error('User not found in the database');
         }
-        const userData = yield user_model_schema_1.User.findOne({ userId: id });
+        const userData = (yield user_model_schema_1.User.findOne({ userId: id }));
         if (!userData.orders) {
             userData.orders = [];
         }
         userData.orders.push({
-            productName: productData === null || productData === void 0 ? void 0 : productData.productName,
-            price: productData === null || productData === void 0 ? void 0 : productData.price,
-            quantity: productData === null || productData === void 0 ? void 0 : productData.quantity,
+            productName: productData.productName,
+            price: productData.price,
+            quantity: productData.quantity,
         });
         const updatedUserData = yield user_model_schema_1.User.updateSingleUserData(id, userData);
         return updatedUserData;
