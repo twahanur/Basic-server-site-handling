@@ -3,8 +3,7 @@ import { UserService } from './user.service';
 
 const createUser = async (req: Request, res: Response) => {
   try {
-    const { user: userData } = req.body;
-    const data = await UserService.createUserToDB(userData);
+    const data = await UserService.createUserToDB(req.body);
     const dataObj = {
       userId: data.userId,
       username: data.username,

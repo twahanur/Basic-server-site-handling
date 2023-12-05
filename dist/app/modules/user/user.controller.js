@@ -13,8 +13,7 @@ exports.userController = void 0;
 const user_service_1 = require("./user.service");
 const createUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { user: userData } = req.body;
-        const data = yield user_service_1.UserService.createUserToDB(userData);
+        const data = yield user_service_1.UserService.createUserToDB(req.body);
         const dataObj = {
             userId: data.userId,
             username: data.username,
